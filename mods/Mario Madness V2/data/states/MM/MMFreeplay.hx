@@ -99,6 +99,11 @@ var tottalTime:Float = 0;
 function update(elapsed){
     tottalTime += elapsed;
 
+    if (controls.BACK) {
+        FlxG.sound.play(Paths.sound('cancelMenu'));
+        FlxG.switchState(new MainMenuState());
+    }
+
     grpOptions.forEach(function(spr:FlxSprite)
 		{
 			spr.offset.y = (Math.floor(8 * Math.sin(tottalTime + (.2 * spr.ID)))/8) * 6;
@@ -128,17 +133,14 @@ function update(elapsed){
 function changeSelection(change:Int = 0)
 	{
 		curSelected += change;
-		if (curSelected < 0)
-			curSelected = options.length - 1;
-		if (curSelected >= options.length)
-			curSelected = 0;
+		if (curSelected < 0) curSelected = options.length - 1;
+		if (curSelected >= options.length) curSelected = 0;
 
 		for (item in grpOptions.members)
 		{
 			item.color = 0xFF505050;
 			item.alpha = 0.9;
-			if (item.ID == curSelected && showAnim)
-			{
+			if (item.ID == curSelected && showAnim) {
 				item.color = 0xFFFFFFFF;
 				item.alpha = 1;
 			}
